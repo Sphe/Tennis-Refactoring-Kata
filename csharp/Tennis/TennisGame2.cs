@@ -24,7 +24,7 @@ namespace Tennis
 
         public void WonPoint(string player)
         {
-            if (string.Compare(player, "player1", true) == 0)
+            if (string.Compare(player, ScoreLabelMessageList.PLAYER1_DEFAULTNAME, true) == 0)
             {
                 _player1.Scoring();
             }

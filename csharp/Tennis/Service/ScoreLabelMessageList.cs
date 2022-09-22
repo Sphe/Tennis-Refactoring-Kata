@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tennis.Domain;
 
 namespace Tennis.Service
 {
     public class ScoreLabelMessageList
     {
+        public const string PLAYER1_DEFAULTNAME = "player1";
+
         private string[] _labelEqualScore = new string[]
         {
             "Love-All",
@@ -24,27 +27,29 @@ namespace Tennis.Service
             "Forty"
         };
 
-        private List<((int, int), string)> _labelWinning = new List<((int, int), string)>()
+        private List<RangeMessage> _labelWinning = new List<RangeMessage>()
         {
-            { ((1, 1), "Advantage player1") },
-            { ((-1, -1), "Advantage player2") },
-            { ((2, int.MaxValue), "Win for player1") },
-            { ((int.MinValue, -2), "Win for player2") }
+            { new RangeMessage() { Range = (1, 1), Message = "Advantage player1" } },
+            { new RangeMessage() { Range = (-1, -1), Message = "Advantage player2" } },
+            { new RangeMessage() { Range = (2, int.MaxValue), Message = "Win for player1" } },
+            { new RangeMessage() { Range = (int.MinValue, -2), Message = "Win for player2" } }
         };
 
         public string LabelWinningScoreList(int diffScorePoint)
         {
-            foreach(var item in _labelWinning)
+            string messFinal = string.Empty;
+            foreach (var item in _labelWinning)
             {
-                if (!(item.Item1.Item1 <= diffScorePoint && item.Item1.Item2 >= diffScorePoint))
+                if (!(item.Range.Item1 <= diffScorePoint && item.Range.Item2 >= diffScorePoint))
                 {
                     continue;
                 }
 
-                return item.Item2;
+                messFinal = item.Message;
+                break;
             }
 
-            return string.Empty;
+            return messFinal;
         }
 
         public string LabelEqualScoreList(int index)
