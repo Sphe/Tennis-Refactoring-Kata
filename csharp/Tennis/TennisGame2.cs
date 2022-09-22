@@ -5,6 +5,7 @@ namespace Tennis
 {
     public class TennisGame2 : ITennisGame
     {
+
         private Player _player1;
         private Player _player2;
         private ScoreLabelService _scoreLabelService;
@@ -24,9 +25,13 @@ namespace Tennis
         public void WonPoint(string player)
         {
             if (string.Compare(player, "player1", true) == 0)
+            {
                 _player1.Scoring();
+            }
             else
+            {
                 _player2.Scoring();
+            }
         }
 
     }
