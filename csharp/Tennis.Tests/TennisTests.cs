@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tennis.Service;
+using Tennis.Service.Contract;
 using Xunit;
 
 namespace Tennis.Tests
@@ -49,6 +51,52 @@ namespace Tennis.Tests
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
+    public class TestScoreLabelMessage_EqualScore_Generator : IEnumerable<object[]>
+    {
+        private readonly List<object[]> _data = new List<object[]>
+        {
+            new object[] {0, "Love-All" },
+            new object[] {1, "Fifteen-All" },
+            new object[] {2, "Thirty-All" },
+            new object[] {3, "Deuce" },
+        };
+
+        public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public class TestScoreLabelMessage_NormalScore_Generator : IEnumerable<object[]>
+    {
+        private readonly List<object[]> _data = new List<object[]>
+        {
+            new object[] {0, "Love"},
+            new object[] {1, "Fifteen"},
+            new object[] {2, "Thirty"},
+            new object[] {3, "Forty"},
+        };
+
+        public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public class TestScoreLabelMessage_WinningScore_Generator : IEnumerable<object[]>
+    {
+        private readonly List<object[]> _data = new List<object[]>
+        {
+            new object[] {1, "Advantage player1" },
+            new object[] {-1, "Advantage player2" },
+            new object[] {3, "Win for player1" },
+            new object[] {-3, "Win for player2" },
+        };
+
+        public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+
     public class TennisTests
     {
         [Theory]
@@ -65,6 +113,33 @@ namespace Tennis.Tests
         {
             var game = new TennisGame2("player1", "player2");
             CheckAllScores(game, p1, p2, expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(TestScoreLabelMessage_NormalScore_Generator))]
+        public void Tennis2_ScoreLabelMessage_NormalScore_Test(int p1, string expected)
+        {
+            IScoreLabelMessageService slm = new ScoreLabelMessageService();
+            var res = slm.LabelNormalScoreList(p1);
+            Assert.Equal(res, expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(TestScoreLabelMessage_EqualScore_Generator))]
+        public void Tennis2_ScoreLabelMessage_EqualScore_Test(int p1, string expected)
+        {
+            IScoreLabelMessageService slm = new ScoreLabelMessageService();
+            var res = slm.LabelEqualScoreList(p1);
+            Assert.Equal(res, expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(TestScoreLabelMessage_WinningScore_Generator))]
+        public void Tennis2_ScoreLabelMessage_WinningScore_Test(int p1, string expected)
+        {
+            IScoreLabelMessageService slm = new ScoreLabelMessageService();
+            var res = slm.LabelWinningScoreList(p1);
+            Assert.Equal(res, expected);
         }
 
         [Theory]

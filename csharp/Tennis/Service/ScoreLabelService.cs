@@ -1,16 +1,17 @@
 ﻿using System;
 using Tennis.Domain;
+using Tennis.Service.Contract;
 
 namespace Tennis.Service
 {
-    public class ScoreLabelService
+    public class ScoreLabelService : IScoreLabelService
     {
 
-        private ScoreLabelMessageList _scoreLabelMessageList;
+        private IScoreLabelMessageService _scoreLabelMessageList;
 
         public ScoreLabelService()
         {
-            _scoreLabelMessageList = new ScoreLabelMessageList();
+            _scoreLabelMessageList = new ScoreLabelMessageService();
         }
 
         public string Create(Player player1, Player player2)

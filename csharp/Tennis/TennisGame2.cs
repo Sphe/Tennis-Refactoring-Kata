@@ -1,5 +1,6 @@
 using Tennis.Domain;
 using Tennis.Service;
+using Tennis.Service.Contract;
 
 namespace Tennis
 {
@@ -8,7 +9,7 @@ namespace Tennis
 
         private Player _player1;
         private Player _player2;
-        private ScoreLabelService _scoreLabelService;
+        private IScoreLabelService _scoreLabelService;
 
         public TennisGame2(string player1Name, string player2Name)
         {
@@ -24,7 +25,7 @@ namespace Tennis
 
         public void WonPoint(string player)
         {
-            if (string.Compare(player, ScoreLabelMessageList.PLAYER1_DEFAULTNAME, true) == 0)
+            if (string.Compare(player, ScoreLabelMessageService.PLAYER1_DEFAULTNAME, true) == 0)
             {
                 _player1.Scoring();
             }

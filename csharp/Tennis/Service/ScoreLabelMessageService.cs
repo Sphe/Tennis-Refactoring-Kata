@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tennis.Domain;
+using Tennis.Service.Contract;
 
 namespace Tennis.Service
 {
-    public class ScoreLabelMessageList
+    public class ScoreLabelMessageService : IScoreLabelMessageService
     {
+
         public const string PLAYER1_DEFAULTNAME = "player1";
 
         private string[] _labelEqualScore = new string[]
@@ -73,5 +75,6 @@ namespace Tennis.Service
 
             return index;
         }
+
     }
 }
